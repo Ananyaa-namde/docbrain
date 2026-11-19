@@ -1,4 +1,4 @@
-package com.ananyaa.docbrainbackend;
+package com.ananyaa.docbrain;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

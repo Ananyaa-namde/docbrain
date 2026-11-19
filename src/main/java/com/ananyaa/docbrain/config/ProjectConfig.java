@@ -1,4 +1,4 @@
-package com.ananyaa.docbrainbackend.config;
+package com.ananyaa.docbrain.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
