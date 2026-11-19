@@ -1,5 +1,6 @@
 package com.ananyaa.docbrain.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,11 @@ import org.springframework.web.bind.annotation.*;
 )
 public class DocumentController {
     @PostMapping
+    @Operation(
+            summary = "Upload and index a document(PDF, DOCX, TEXT, MD, CSV)",
+            description = "This api is used to upload and index documents files."
+
+    )
     public ResponseEntity<String> uploadDocument(){
         return ResponseEntity.ok("Uploaded");
     }
