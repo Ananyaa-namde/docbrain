@@ -1,4 +1,4 @@
-package com.ananyaa.docbrain.entity;
+package com.ananyaa.docbrain.exception;
 
 public class ResourceNotFoundException extends  RuntimeException{
     public ResourceNotFoundException(){
