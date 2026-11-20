@@ -2,7 +2,7 @@ package com.ananyaa.docbrain.controller;
 
 import com.ananyaa.docbrain.dto.ApiResponse;
 import com.ananyaa.docbrain.dto.DocumentResponseDto;
-import com.ananyaa.docbrain.service.DocumentService;
+import com.ananyaa.docbrain.service.DocumentMetadataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class DocumentController {
 
-    private final DocumentService documentService;
+    private final DocumentMetadataService documentService;
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
             summary = "Upload and index a document(PDF, DOCX, TEXT, MD, CSV)",
