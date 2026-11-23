@@ -44,6 +44,7 @@ public class DocumentMetadataService {
                 .contentType(contentType)
                 .status(DocumentStatus.UPLOADING)
                 .fileSize(file.getSize())
+                .createdAt(LocalDateTime.now())
                 .build();
 
         //save the document Metadata
