@@ -2,9 +2,7 @@ package com.ananyaa.docbrain.service;
 
 
 import com.ananyaa.docbrain.config.AppProperties;
-import com.ananyaa.docbrain.dto.CitationDto;
-import com.ananyaa.docbrain.dto.SearchRequestDto;
-import com.ananyaa.docbrain.dto.SearchResultDto;
+import com.ananyaa.docbrain.dto.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -37,6 +35,12 @@ public class RagService {
 
     //private final ConversationRepository conversationRepository;
 
+    public ChatResponseDto askQuestion(ChatRequestDto request) {
+
+        long startTime = System.currentTimeMillis();
+        return null;
+    }
+
     public SearchResultDto searchSimilarChunks(SearchRequestDto request) {
 
         java.util.List<Document> matchedDocs = retrieveRelevantDocuments(
@@ -56,6 +60,7 @@ public class RagService {
                 .build();
 
     }
+
 
     private CitationDto mapToCitation(Document document) {
 
