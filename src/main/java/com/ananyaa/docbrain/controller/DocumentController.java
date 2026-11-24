@@ -1,6 +1,7 @@
 package com.ananyaa.docbrain.controller;
 
 import com.ananyaa.docbrain.dto.ApiResponse;
+import com.ananyaa.docbrain.dto.DocumentMetadataDto;
 import com.ananyaa.docbrain.dto.DocumentResponseDto;
 import com.ananyaa.docbrain.service.DocumentMetadataService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @RestController()
 @RequestMapping("/api/v1/documents")
@@ -46,5 +49,76 @@ public class DocumentController {
                         .timestamp(LocalDateTime.now())
                         .message("Documents uploaded and indexed successfully")
                         .build());
+    }
+
+    @PostMapping(value = "/upload-multiple", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(
+            summary = "Upload and index multiple documents simultaneously",
+            description = "This api is used to upload and index multiple documents."
+    )
+    public ResponseEntity<ApiResponse<List<DocumentResponseDto>>> uploadMultiple(
+            @RequestParam("files")
+            List<MultipartFile> files,
+            Authentication authentication
+    ) {
+
+ //       User user=(User)authentication.getPrincipal();
+        List<DocumentResponseDto> responseDtos = documentService.uploadMultipleDocuments(files);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(
+                        ApiResponse.<List<DocumentResponseDto>>
+                                        builder()
+                                .message("Document uploaded successfully")
+                                .success(true)
+                                .timestamp(LocalDateTime.now())
+                                .data(responseDtos)
+                                .build()
+                );
+    }
+
+   // @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
+    @Operation(summary = "List all uploaded documents and their indexing status")
+    public ResponseEntity<ApiResponse<List<DocumentMetadataDto>>> getAllDocuments(){
+        java.util.List<DocumentMetadataDto> documents =documentService.getAllDocuments();
+        return ResponseEntity.ok(
+                ApiResponse.<List<DocumentMetadataDto>>
+                                builder()
+                        .message("All documents is here")
+                        .success(true)
+                        .timestamp(LocalDateTime.now())
+                        .data(documents)
+                        .build()
+        );
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get metadata of a specific document by ID")
+    public ResponseEntity<ApiResponse<DocumentMetadataDto>> getDocumentById(@PathVariable UUID id) {
+        DocumentMetadataDto document = documentService.getDocumentById(id);
+        return ResponseEntity.ok(
+                ApiResponse.<DocumentMetadataDto>
+                                builder()
+                        .message("Single document is here")
+                        .success(true)
+                        .timestamp(LocalDateTime.now())
+                        .data(document)
+                        .build()
+        );
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a document and purge its vector embeddings from vector store")
+    public ResponseEntity<ApiResponse<Void>> deleteDocument(@PathVariable UUID id) {
+        documentService.deleteDocument(id);
+        return ResponseEntity.ok(
+                ApiResponse.<Void>
+                                builder()
+                        .message("Document deleted successfully")
+                        .success(true)
+                        .timestamp(LocalDateTime.now())
+                        .data(null)
+                        .build()
+        );
     }
 }
