@@ -54,6 +54,8 @@ public class RagService {
         String prompt = buildPrompt(request.getQuestion(), contextText);
         String answer = this.chatClient
                 .prompt()
+                .user(prompt)
+                .advisors(advisors -> advisors.param(ChatMemory.CONVERSATION_ID, request.getConversationId()))
                 .call()
                 .content();
         long responseTime = System.currentTimeMillis() - startTime;
